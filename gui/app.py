@@ -113,7 +113,7 @@ class App:
                 fg='red'
             )
         else:
-            self.caminho = '/home/enge-olate/Documentos'
+            self.caminho = 'c:/Users/marci/Documents'
             self.pastas = ['TESTE', 'PDF', 'DIELETRICO']
             self.criando = Dirs(self.op, self.caminho, self.pastas)
             try:
