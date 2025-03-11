@@ -1,4 +1,4 @@
-from tkinter import(
+from tkinter import (
     Frame,
     Label,
     Button,
@@ -17,11 +17,11 @@ class App:
         # self.raiz.geometry('600x300')
         self.raiz.title('SGP - Sistema Gerador de Pastas')
         # self.raiz.resizable(False, False)
-        self.bg='#0b0574'
+        self.bg = '#0b0574'
         if getattr(sys, 'frozen', False):
             self.logo_path = os.path.join(sys._MEIPASS, 'img', 'logo_tamura_mod.png')
         else:
-            self.logo_path = os.path.join(os.path.dirname(__file__), '..', 'logo_tamura_mod.png')
+            self.logo_path = os.path.join(os.path.dirname(__file__), '..', 'img', 'logo_tamura_mod.png')
 
         self.logo = PhotoImage(file=self.logo_path)
         self.frame()
@@ -34,7 +34,6 @@ class App:
             width=600,
             height=200,
             bg=self.bg
-            
         )
         self.frame_principal.grid(
             column=0,
@@ -72,9 +71,8 @@ class App:
             relief='sunken',
             borderwidth=1,
             fg='black',
-        
         )
-        self.entry.focus_force()    
+        self.entry.focus_force()
         self.entry.grid(
             column=0,
             row=1,
@@ -130,13 +128,12 @@ class App:
                         fg='red'
                     )
             except Exception as e:
-                    self.label_resultado.config(
-                        text=f'{e}',
-                        fg='red'
-                    )
-        self.entry.delete(0,END)
+                self.label_resultado.config(
+                    text=f'{e}',
+                    fg='red'
+                )
+        self.entry.delete(0, END)
 
-        
     def rode_app(self):
         self.raiz.mainloop()
 
