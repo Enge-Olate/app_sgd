@@ -1,7 +1,7 @@
 import os
 
 class Dirs:
-    def __init__(self, nome_pasta, get_path='/home/enge-olate/Documentos', pastas=['TESTE', 'PDF', 'DIELETRCO']):
+    def __init__(self, nome_pasta, get_path='c:/Users/marci/Documentos', pastas=['TESTE', 'PDF', 'DIELETRCO']):
         
         
         self.get_path = get_path
