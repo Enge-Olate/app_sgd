@@ -5,7 +5,8 @@ from tkinter import (
     Tk,
     Entry,
     PhotoImage,
-    END
+    END,
+    
 )
 from src.dirs import Dirs
 import os
@@ -78,11 +79,11 @@ class App:
             row=1,
             sticky=('N', 'W'),
             padx=250,
-            pady=100
+            pady=108
         )
         self.botao = Button(
             text='Criar Pasta',
-            cursor='arrow',
+            cursor='clock',
             font='Arial',
             highlightcolor='#fff',
             command=self.dirs,
@@ -92,6 +93,7 @@ class App:
             row=1,
             pady=150,
         )
+        
 
         self.label_resultado = Label(
             text='',
@@ -105,6 +107,8 @@ class App:
         )
 
     def dirs(self):
+       
+        
         self.op = self.entry.get()
 
         if not self.op:
@@ -134,6 +138,8 @@ class App:
                 )
         self.entry.delete(0, END)
 
+
     def rode_app(self):
         self.raiz.mainloop()
 
+    
