@@ -1,7 +1,7 @@
-# App SGD
+# App_SGP
 
 ## Descrição
-O App SGD é um projeto em Python desenvolvido para gerenciar e organizar dados de forma eficiente. Este aplicativo oferecrá em breve outras funcionalidades para armazenamento, consulta e manipulação de dados.
+O App_SGp é um projeto em Python desenvolvido para gerenciar e organizar dados de forma eficiente. Este aplicativo oferecrá em breve outras funcionalidades para armazenamento, consulta e manipulação de dados.
 
 ## Funcionalidades
 - Armazenamento seguro de dados
@@ -51,7 +51,7 @@ O App SGD é um projeto em Python desenvolvido para gerenciar e organizar dados 
         git push origin minha-feature
         ```
 5. Abra um Pull Request
-
+6. Link do projeto: https://github.com/Enge-Olate/app_sgd
 ## Licença
 Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
