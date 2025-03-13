@@ -5,6 +5,7 @@ from tkinter import (
     Tk,
     Entry,
     PhotoImage,
+    StringVar,
     END,
     
 )
@@ -50,17 +51,18 @@ class App:
             background=self.bg,
         )
         self.label_logo.grid(
-            # column=0,
-            # row=0,
+            column=0,
+            row=0,
             pady=5,
-            sticky='Ns'
+            padx=200,
+            sticky='Nw'
         )
 
         self.label_op = Label(
-            text='Digite o número da op: ',
+            text='Ordem de produção(OP): ',
             fg='#fff',
             bg=self.bg,
-            font='Arial 14'
+            font='Arial'
         )
         self.label_op.grid(
             column=0,
@@ -70,7 +72,7 @@ class App:
             pady=10
         )
         self.entry = Entry(
-            bg='#fff',
+            bg='#fff2ff',
             relief='flat',
             borderwidth=1,
             fg='black',
@@ -85,7 +87,7 @@ class App:
         )
 
         self.label_produto = Label(
-            text='Escolha o produto: ',
+            text='Informe o produto: ',
             fg='#fff',
             bg=self.bg,
             font='Arial 14'
@@ -97,21 +99,93 @@ class App:
             padx=50,
             pady=10
         )
-        self.combo_produto = ttk.Combobox(
-            values=[
-                'TSA06TCPS321',
-                'TSA06TCPS320',
-                'TSA06TCPS322'
-            ]
+
+        
+
+        self.entry_produto=Entry(
+            bg='#fff2ff',
+            relief='flat',
+            borderwidth=1,
+            fg='black',
         )
-        self.combo_produto.grid(
+        self.entry_produto.grid(
             column=0,
             row=2,
             sticky='NW',
             padx=250,
             pady=15.5
         )
-        self.combo_produto.bind('<<ComboboxSelected>>', self.mostra_combo)
+
+
+        self.label_produto_seq = Label(
+            text='Produto sequêncial: ',
+            fg='#fff',
+            bg=self.bg,
+            font='Arial 14'
+        )
+        self.label_produto_seq.grid(
+            column=0,
+            row=3,
+            sticky='NW',
+            padx=50,
+            pady=10
+        )
+
+        
+
+        self.entry_seq_produto=Entry(
+            bg='#fff2ff',
+            relief='flat',
+            borderwidth=1,
+            fg='black',
+        )
+        self.entry_seq_produto.grid(
+            column=0,
+            row=3,
+            sticky='NW',
+            padx=250,
+            pady=15.5
+        )
+
+
+                
+        # self.combo_produto = ttk.Combobox(
+        #     values=[
+        #         'TSA06TPA',
+        #         'TSA06TPB',
+        #         'TSA06TCPC',
+        #         'TSA7TPA',
+        #         'TSA7TPB',
+        #         'TSA15ETPA',
+        #         'TSA15ETPB',
+        #         'TSA15TPA',
+        #         'TSA15TPB',
+        #         'TSA15TPC',
+        #         'TSA15TPD',
+        #         'TSA15TPE',
+        #         'TSA25ETPA',
+        #         'TSA25ETPB',
+        #         'TSA25TPA',
+        #         'TSA25TPB',
+        #         'TSA36ETPA',
+        #         'TSA36TPAB',
+        #         'TSA36TPC',
+        #         'TSA06100',
+        #         'TSA06100T',
+        #         'TSAFF7',
+        #         'TSAFF25F',
+        #         'TSAFT21',
+        #         'TSATTRS'
+        #     ]
+        # )
+        # self.combo_produto.grid(
+        #     column=0,
+        #     row=2,
+        #     sticky='NW',
+        #     padx=250,
+        #     pady=15.5
+        # )
+        # self.combo_produto.bind('<<ComboboxSelected>>', self.mostra_combo)
 
         self.botao = Button(
             text='Criar Pasta',
@@ -122,11 +196,12 @@ class App:
         )
         self.botao.grid(
             column=0,
-            row=3,
+            row=5,
             pady=5,
+            padx=250,
+            sticky='nw'
         )
         self.botao.bind('<Return>', self.enter)
-        
 
         self.label_resultado = Label(
             text='',
@@ -136,33 +211,51 @@ class App:
         self.label_resultado.grid(
             column=0,   
             row=4,
-            pady=20
+            pady=20,
+            padx=200,
+            sticky='nw'
         )
     def mostra_combo(self, event):
         pass
-
+    
+    
+    # def resetar_campos(self, event):
+    #     if self.dirs():
+    #         self.entry.delete(0,END)
+    
     
     def enter(self, event):
         self.dirs()
 
+    
+        
+
     def dirs(self):
-       
-        self.produto_combo = self.combo_produto.get()        
+        
         self.op = self.entry.get()
+        self.produto = self.entry_produto.get()
+        self.seq_produto = self.entry_seq_produto.get()    
+        
         
         if not self.op:
             self.label_resultado.config(
-                text='OP não pode ser vazia!',
-                fg='red'
+                text='OP não pode ser vázia!',
+                fg='yellow'
             )
-        elif not self.produto_combo:
+        elif not self.produto:
             self.label_resultado.config(
-                text='Escolha produto!',
-                fg='red'
+                text='Produto não pode ser vázio!',
+                fg='yellow'
             )
+        elif not self.seq_produto:
+            self.label_resultado.config(
+                text='Produto sequêncial não pode ser vázio!',
+                fg='yellow'
+            )
+        
         else:
-            # self.caminho = f'//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TC/TSA06TCPS/{self.produto_combo}/RELATÓRIO DE ENSAIO/'
-            self.caminho = f'c:/Users/marci/Documents/TSA06TCPS/{self.produto_combo}/RELATÓRIO DE ENSAIO'
+            self.caminho = f'//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TC/{self.produto}/{self.seq_produto}/RELATÓRIO DE ENSAIO/'
+            # self.caminho = f'c:/Users/marci/Documents/{self.produto}/{self.seq_produto}'
             self.pastas = ['TESTE', 'PDF', 'DIELETRICO']
             self.criando = Dirs(self.op, self.caminho, self.pastas)
             try:
@@ -171,6 +264,10 @@ class App:
                         text='Pasta criada com sucesso!',
                         fg='green'
                     )
+                    self.entry.delete(0, END)
+                    self.entry_produto.delete(0, END)
+                    self.entry_seq_produto.delete(0, END)
+                    self.entry.focus_force()
                 else:
                     self.label_resultado.config(
                         text='Pasta já existe',
@@ -183,8 +280,10 @@ class App:
                     
                 )
                 print(f'{self.caminho}')
-                print(f'{self.produto_combo}')
-        # self.entry.delete(0, END)
+                print(f'{self.produto}')
+       
+    
+    
 
 
     def rode_app(self):
