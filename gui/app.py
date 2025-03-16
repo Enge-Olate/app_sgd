@@ -486,10 +486,11 @@ class App:
                     fg='red',
                     
                 )
-                print(self.tc_produto)
+            
+                # print(self.tc_produto)
                 print(f'{self.caminho}')
-
                 print(f'{self.produto}')
+            self.produto = ''
     def rode_app(self):
 
         self.raiz.mainloop()
