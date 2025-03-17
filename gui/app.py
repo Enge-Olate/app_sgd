@@ -35,16 +35,26 @@ class App:
         self.logo = PhotoImage(file=self.logo_path)
 
         self.tc_produto = []
-        with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/tc.txt', 'r', closefd=True, encoding='utf-8')  as tc_produto:
-            for item in tc_produto:
-                self.tc_produto.append(item.strip())
-        
+        try:
+            with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TC/tc.txt', 'a', encoding='utf-8', closefd=True):
+                pass
+            with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TC/tc.txt', 'r', closefd=True, encoding='utf-8')  as tc_produto:
+                for item in tc_produto:
+                    self.tc_produto.append(item.strip())
+            
+        except FileNotFoundError:
+            pass
 
         self.tp_produto=[]
-        with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/tp.txt', 'r', closefd=True, encoding='utf-8')  as tp_produto:
-            for item in tp_produto:
-                self.tp_produto.append(item.strip())
- 
+        try:
+            with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TP/tp.txt', 'a', encoding='utf-8', closefd=True):
+                pass
+            with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TP/tp.txt', 'r', closefd=True, encoding='utf-8')  as tp_produto:
+                for item in tp_produto:
+                    self.tp_produto.append(item.strip())
+            
+        except FileNotFoundError:
+            pass
         
 
         self.menu_bar = Menu(self.raiz)
@@ -238,7 +248,7 @@ class App:
                 fg='red'
         )
         else:
-            with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/tc.txt', 'a', encoding='utf-8', closefd=True) as tc_produto:
+            with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TC/tc.txt', 'a', encoding='utf-8', closefd=True) as tc_produto:
                 tc_produto.write(f'{self.tc_entry_produto_add}\n')
             self.tc.add_cascade(
                 label=self.tc_entry_produto_add,
@@ -317,7 +327,7 @@ class App:
         )
         else:
 
-            with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/tp.txt', 'a',  encoding='utf-8', closefd=True) as tp_produto:
+            with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TP/tp.txt', 'a',  encoding='utf-8', closefd=True) as tp_produto:
                 tp_produto.write(f'{self.tp_entry_produto_add}\n')
             
             self.tP.add_cascade(
@@ -335,16 +345,16 @@ class App:
         self.ajuda = messagebox.showinfo(
             'Ajuda',
             """ 
-        Olá, seja bem vindo ao app_SGP (app - Sistema Gerador de Pastas). 
+        Olá, seja bem-vindo ao app_SGP (app - Sistema Gerador de Pastas). 
         Para sua utilização, tenha sempre em mãos a ordem de produção.
 
         Menu:
 
-                -> 'TC', 'TP': deverá ser selecionado o produto;
+            -> 'TC', 'TP': deverá ser selecionado o produto;
 
-                -> 'Add Produto': ira abrir uma nova janela para adcionar produtos a 'TC' e 'TP'. (OBS: O PRODUTO DEVERÁ ESTAR SEM SUA SEQUÊNCIA ORDINAL).
+            -> 'Add Produto': irá abrir uma nova janela para adicionar produtos a 'TC' e 'TP'. (OBS: O PRODUTO DEVERÁ ESTAR SEM A SUA SEQUÊNCIA ORDINAL).
 
-                ->'Ajuda': mostra este manual.
+            -> 'Ajuda': mostra este manual.
 
         Tela Principal:
 
@@ -354,8 +364,7 @@ class App:
             
             Por fim, clique no botão 'Criar Pasta' para criar a pasta da OP informada, com as pastas no local devido.
 
-            Para dúvidas e sugestões, contactar o desenvolvedor pelo e-mail: marcioalexisolate@live.com
-            
+        Para dúvidas e sugestões, contactar o desenvolvedor pelo e-mail: marcioalexisolate@live.com
             
             """         
         )
@@ -392,9 +401,32 @@ class App:
                 text='Selecione produto no menu TC ou TP!', 
                 fg='yellow'
             )
-        
+        elif self.caminho == f'//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TC/{self.produto}/{self.seq_produto}/RELATÓRIO DE ENSAIO/':
+             # self.caminho = f'c:/Users/marci/Documents/{self.produto}/{self.seq_produto}'
+            self.pastas = ['TESTE', 'PDF', 'DIELETRICO']
+            self.criando = Dirs(self.op, self.caminho, self.pastas)
+            try:
+                if self.criando.criar_pastas():
+                    self.label_resultado.config(
+                        text='Pasta criada com sucesso!',
+                        fg='green'
+                    )
+                   
+                    self.entry_op.focus_force()
+                else:
+                    self.label_resultado.config(
+                        text='Pasta já existe',
+                        fg='red'
+                    )
+            except Exception as e:
+                self.label_resultado.config(
+                    text='Caminho de rede não encontrado!',
+                    fg='red',
+
+                )
+            
         else:
-            self.caminho = f'//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TC/{self.produto}/{self.seq_produto}/RELATÓRIO DE ENSAIO/'
+            self.caminho = f'//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TP/{self.produto}/{self.seq_produto}/RELATÓRIO DE ENSAIO/'
             # self.caminho = f'c:/Users/marci/Documents/{self.produto}/{self.seq_produto}'
             self.pastas = ['TESTE', 'PDF', 'DIELETRICO']
             self.criando = Dirs(self.op, self.caminho, self.pastas)
@@ -417,12 +449,8 @@ class App:
                     fg='red',
 
                 )
-               
-
-              
-               
             self.produto = ''
-        self.raiz.update()      
+            self.raiz.update()      
 
     def rode_app(self):
 

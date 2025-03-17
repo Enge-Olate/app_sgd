@@ -4,7 +4,7 @@ class Dirs:
     def __init__(
             self, 
             nome_pasta, 
-            get_path='//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TC/',
+            get_path='//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/',
             # get_path ='c:/Users/marci/Documents/',
             pastas=['TESTE', 'PDF', 'DIELETRCO']):
         
