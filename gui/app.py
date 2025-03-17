@@ -34,102 +34,17 @@ class App:
 
         self.logo = PhotoImage(file=self.logo_path)
 
-        self.tc_produto = [
-                'TSA06QD1',
-                'TSA06QD2',
-                'TSA06QD3',
-                'TSA06QD4',
-                'TSA06QD5',
-                'TSA06QD6',
-                'TSA06TCA',
-                'TSA06TCB',
-                'TSA06TCC',
-                'TSA06TCE',
-                'TSA06TCF',
-                'TSA06TCG',
-                'TSA06TCH',
-                'TSA06TCK',
-                'TSA06TCL',
-                'TSA06TCM',
-                'TSA06TCN',
-                'TSA06TCO',
-                'TSA06TCP',
-                'TSA06TCPS',
-                'TSA06TCS',
-                'TSA06TCTA',
-                'TSA06TCTB',
-                'TSA06TCTC',
-                'TSA15ETCA',
-                'TSA15TCA',
-                'TSA15TCB',
-                'TSA15TCC',
-                'TSA15TCE',
-                'TSA15TCF',
-                'TSA15TCG',
-                'TSA15TCH',
-                'TSA15TCI',
-                'TSA25ETCA',
-                'TSA25TCA',
-                'TSA25TCB',
-                'TSA25TCC',
-                'TSA25TCD',
-                'TSA25TCE',
-                'TSA25TCF',
-                'TSA25TCG',
-                'TSA36TPA',
-                'TSA36TPB',
-                'TSA36ETPB',
-                'TSA75N',
-                'TSA80015',
-                'TSA11180',
-                'TSA11300',
-                'TSA11300M',
-                'TSA1300B',
-                'TSA1113200',
-                'TSA1114000D',
-                'TSA1125000D',
-                'TSASP100',
-                'TSASP150',
-                'TSASP275',
-                'TSATC4MA72PL',
-                'TSAC4MA75S2',
-                'TSATCTOR',
-                'TSATCTR',
-
-        ]
-        
+        self.tc_produto = []
+        with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/tc.txt', 'r', closefd=True, encoding='utf-8')  as tc_produto:
+            for item in tc_produto:
+                self.tc_produto.append(item.strip())
         
 
-        self.tp_produto=[
-            'TSA06TPA',
-            'TSA06TPB',
-            'TSA06TPC',
-            'TSA7TPA',
-            'TSA7TPB',
-            'TSA15ETPA',
-            'TSA15ETPB',
-            'TSA15TPA',
-            'TSA15TPB',
-            'TSA15TPC',
-            'TSA15TPD',
-            'TSA15TPE',
-            'TSA25ETPA',
-            'TSA25ETPB',
-            'TSA25TPA',
-            'TSA25TPB',
-            'TSA36ETPA',
-            'TSA36TPB',
-            'TSA36TPC',
-            'TSA6100',
-            'TSA6100T',
-            'TSAFF7',
-            'TSAFF25F',
-            'TSAFT21',
-            'TSATTR5',
-            
-            
-        ]
-         
+        self.tp_produto=[]
+        with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/tp.txt', 'r', closefd=True, encoding='utf-8')  as tp_produto:
+            for item in tp_produto:
+                self.tp_produto.append(item.strip())
+ 
         
 
         self.menu_bar = Menu(self.raiz)
@@ -146,10 +61,10 @@ class App:
         for self.items in self.tp_produto:
             self.tP.add_cascade(label=self.items, command=lambda i=self.items: self.item_sel(item=i))
             
-        # self.add_produto = Menu(self.menu_bar, tearoff=0)
-        # self.menu_bar.add_cascade(label='Add Produto', menu=self.add_produto)
-        # self.add_produto.add_cascade(label='TC', command=self.add_tc)
-        # self.add_produto.add_cascade(label='TP', command=self.add_tp)
+        self.add_produto = Menu(self.menu_bar, tearoff=0)
+        self.menu_bar.add_cascade(label='Add Produto', menu=self.add_produto)
+        self.add_produto.add_cascade(label='TC', command=self.add_tc)
+        self.add_produto.add_cascade(label='TP', command=self.add_tp)
 
 
         self.ajuda_menu = Menu(self.menu_bar, tearoff=0)
@@ -232,7 +147,6 @@ class App:
             cursor='Arrow',
             font='Arial',
             highlightcolor='#fff',
-            command=self.dirs,
             state='active'
         )
         self.botao.grid(
@@ -242,7 +156,8 @@ class App:
             padx=250,
             sticky='nw'
         )
-        self.botao.bind('<Return>', self.enter)
+        self.botao.bind('<Return>', self.dirs)
+        self.botao.bind('<Button-1>', self.dirs)
 
         self.label_resultado = Label(
             text='',
@@ -257,167 +172,182 @@ class App:
             sticky='nw'
         )
     
-    # def add_tc(self):
+    def add_tc(self):
         
-    #     self.adiciona_produto = Toplevel(
-    #         self.raiz,
-    #     )
-    #     self.adiciona_produto.resizable(False, False)
-    #     self.adiciona_produto.title('TC')
-    #     self.adiciona_produto.focus_force()
-    #     self.label_add_produto = Label(
-    #         self.adiciona_produto,
-    #         text='Adicione TC:',
-    #         font='arial',
-    #         fg='black'
-    #     )
-    #     self.label_add_produto.pack(
-    #         pady=5
-    #     )
-    #     self.entry_tc_produto = Entry(
-    #         self.adiciona_produto,
-    #         relief='solid',
-    #         justify='left',
-    #         font='Arial',
-    #         fg='black'
-    #     )
-    #     self.entry_tc_produto.pack(
-    #         pady=5,
-    #     )
-    #     self.entry_tc_produto.focus_force()
+        self.adiciona_produto = Toplevel(
+            self.raiz,
+        )
+        self.adiciona_produto.resizable(False, False)
+        self.adiciona_produto.title('TC')
+        self.adiciona_produto.focus_force()
+        self.label_add_produto = Label(
+            self.adiciona_produto,
+            text='Adicione TC:',
+            font='arial',
+            fg='black'
+        )
+        self.label_add_produto.pack(
+            pady=5
+        )
+        self.entry_tc_produto = Entry(
+            self.adiciona_produto,
+            relief='solid',
+            justify='left',
+            font='Arial',
+            fg='black'
+        )
+        self.entry_tc_produto.pack(
+            pady=5,
+        )
+        self.entry_tc_produto.focus_force()
 
-    #     self.botao_add_tc = Button(
-    #         self.adiciona_produto,
-    #         text='Add',
-    #         font='Arial',
-    #         fg='green',
-    #         relief='ridge',
-    #         borderwidth=2,
-    #         bd=2,
-    #         background='skyblue',
-    #         command=self.result_add_tc
-    #     )
+        self.botao_add_tc = Button(
+            self.adiciona_produto,
+            text='Add',
+            font='Arial',
+            fg='green',
+            relief='ridge',
+            borderwidth=2,
+            bd=2,
+            background='skyblue',
+         
+            
+        )
         
-    #     self.botao_add_tc.pack(
-    #         pady=5,
-    #     )
-    #     self.botao_add_tc.bind('<Return>', self.result_add_tc)
-    #     self.botao_add_tc.bind('<Button-1>', self.result_add_tc)
-    #     self.result_label_tc = Label(
-    #         self.adiciona_produto,
-    #         text='',
-    #         font='Arial', 
-    #         fg='green'
-    #     )
-    #     self.result_label_tc.pack(
-    #         pady=5,
-    #     )
+        self.botao_add_tc.pack(
+            pady=5,
+        )
+        self.botao_add_tc.bind('<Return>', self.result_add_tc)
+        self.botao_add_tc.bind('<Button-1>', self.result_add_tc)
+        self.result_label_tc = Label(
+            self.adiciona_produto,
+            text='',
+            font='Arial', 
+            fg='green'
+        )
+        self.result_label_tc.pack(
+            pady=5,
+        )
 
-    # def result_add_tc(self, event):
-    #     self.tc_entry_produto_add = self.entry_tc_produto.get()
-    #     if not self.tc_entry_produto_add:
-    #         self.result_label_tc.config(
-    #             text='Adicione um produto!',
-    #             fg='red'
-    #     )
-    #     else:
-    #         self.tc_produto.append(f'{self.tc_entry_produto_add}')
-    #         self.tc.add_cascade(
-    #             label=self.tc_entry_produto_add,
-    #             command=lambda i= self.tc_entry_produto_add: self.item_sel(item=i)
-    #         )
-    #         self.result_label_tc.config(
-    #             text='Produto cadastrado com sucesso!',
-    #             fg='green'
-    #         )
-           
+    
+    def result_add_tc(self, event):
+        self.tc_entry_produto_add = self.entry_tc_produto.get()
+        if not self.tc_entry_produto_add:
+            self.result_label_tc.config(
+                text='Adicione um produto!',
+                fg='red'
+        )
+        else:
+            with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/tc.txt', 'a', encoding='utf-8', closefd=True) as tc_produto:
+                tc_produto.write(f'{self.tc_entry_produto_add}\n')
+            self.tc.add_cascade(
+                label=self.tc_entry_produto_add,
+                command=lambda i= self.tc_entry_produto_add: self.item_sel(item=i)
+            )
+            self.result_label_tc.config(
+                text='Produto cadastrado com sucesso!',
+                fg='green'
+            )
+            self.raiz.update()           
     
 
-    # def add_tp(self):
+    def add_tp(self):
         
-    #     self.adiciona_produto = Toplevel(
-    #         self.raiz,
-    #     )
-    #     self.adiciona_produto.resizable(False, False)
-    #     self.adiciona_produto.title('TP')
-    #     self.adiciona_produto.focus_force()
-    #     self.label_add_produto = Label(
-    #         self.adiciona_produto,
-    #         text='Adicione TP:',
-    #         font='arial',
-    #         fg='black'
-    #     )
-    #     self.label_add_produto.pack(
-    #         pady=5
-    #     )
-    #     self.entry_tp_produto = Entry(
-    #         self.adiciona_produto,
-    #         relief='solid',
-    #         justify='left',
-    #         font='Arial',
-    #         fg='black'
-    #     )
-    #     self.entry_tp_produto.pack(
-    #         pady=5,
-    #     )
-    #     self.entry_tp_produto.focus_force()
-    #     self.botao_add_tp = Button(
-    #         self.adiciona_produto,
-    #         text='Add',
-    #         font='Arial',
-    #         fg='green',
-    #         relief='ridge',
-    #         borderwidth=2,
-    #         bd=2,
-    #         background='skyblue',
-    #         command=self.result_add_tp
-    #     )
+        self.adiciona_produto = Toplevel(
+            self.raiz,
+        )
+        self.adiciona_produto.resizable(False, False)
+        self.adiciona_produto.title('TP')
+        self.adiciona_produto.focus_force()
+        self.label_add_produto = Label(
+            self.adiciona_produto,
+            text='Adicione TP:',
+            font='arial',
+            fg='black'
+        )
+        self.label_add_produto.pack(
+            pady=5
+        )
+        self.entry_tp_produto = Entry(
+            self.adiciona_produto,
+            relief='solid',
+            justify='left',
+            font='Arial',
+            fg='black'
+        )
+        self.entry_tp_produto.pack(
+            pady=5,
+        )
+        self.entry_tp_produto.focus_force()
+        self.botao_add_tp = Button(
+            self.adiciona_produto,
+            text='Add',
+            font='Arial',
+            fg='green',
+            relief='ridge',
+            borderwidth=2,
+            bd=2,
+            background='skyblue',
+           
+        )
         
-    #     self.botao_add_tp.pack(
-    #         pady=5,
-    #     )
-    #     self.botao_add_tp.bind('<Return>', self.result_add_tp)        
-    #     self.botao_add_tp.bind('<Button-1>', self.result_add_tp)        
-    #     self.result_label_tp = Label(
-    #         self.adiciona_produto,
-    #         text='',
-    #         font='Arial', 
-    #         fg='green'
-    #     )
-    #     self.result_label_tp.pack(
-    #         pady=5,
-    #     )
+        self.botao_add_tp.pack(
+            pady=5,
+        )
+        self.botao_add_tp.bind('<Return>', self.result_add_tp)        
+        self.botao_add_tp.bind('<Button-1>', self.result_add_tp)        
+        self.result_label_tp = Label(
+            self.adiciona_produto,
+            text='',
+            font='Arial', 
+            fg='green'
+        )
+        self.result_label_tp.pack(
+            pady=5,
+        )
         
    
             
-    # def result_add_tp(self, event):
-        # self.tp_entry_produto_add = self.entry_tp_produto.get()
-        # if not self.tp_entry_produto_add:
-        #     self.result_label_tp.config(
-        #         text='Adicione um produto!',
-        #         fg='red'
-        # )
-        # else:
-        #     self.tp_produto.append(self.tp_entry_produto_add)
-        #     self.tP.add_cascade(
-        #         label=self.tp_entry_produto_add,
-        #         command=lambda i=self.tp_entry_produto_add: self.item_sel(item=i)
-        #     )
-        #     self.result_label_tp.config(
-        #         text='Produto cadastrado com sucesso!',
-        #         fg='green'
-        #     )
-        
+    def result_add_tp(self, event):
+        self.tp_entry_produto_add = self.entry_tp_produto.get()
+        if not self.tp_entry_produto_add:
+            self.result_label_tp.config(
+                text='Adicione um produto!',
+                fg='red'
+        )
+        else:
+
+            with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/tp.txt', 'a',  encoding='utf-8', closefd=True) as tp_produto:
+                tp_produto.write(f'{self.tp_entry_produto_add}\n')
+            
+            self.tP.add_cascade(
+                label=self.tp_entry_produto_add,
+                command=lambda i=self.tp_entry_produto_add: self.item_sel(item=i)
+            )
+            self.result_label_tp.config(
+                text='Produto cadastrado com sucesso!',
+                fg='green'
+            )
+           
+
+
     def mostra_ajuda(self):
         self.ajuda = messagebox.showinfo(
             'Ajuda',
             """ 
-           Olá, seja bem vindo ao app_SGP (app - Sistema Gerador de Pastas). 
-           
-            Para sua utilização, tenha sempre em mãos a ordem de produção.
-            
-            No menu suspenso 'TC', 'TP', deverá ser selecionado o produto.
-            
+        Olá, seja bem vindo ao app_SGP (app - Sistema Gerador de Pastas). 
+        Para sua utilização, tenha sempre em mãos a ordem de produção.
+
+        Menu:
+
+                -> 'TC', 'TP': deverá ser selecionado o produto;
+
+                -> 'Add Produto': ira abrir uma nova janela para adcionar produtos a 'TC' e 'TP'. (OBS: O PRODUTO DEVERÁ ESTAR SEM SUA SEQUÊNCIA ORDINAL).
+
+                ->'Ajuda': mostra este manual.
+
+        Tela Principal:
+
             Na primeira caixa de texto, "Ordem de produção (OP)", deverá ser inserido o número da OP.
             
             Na segunda caixa de texto, deverá ser inserido o nome do produto com a sequência numérica.
@@ -429,17 +359,18 @@ class App:
             
             """         
         )
+        
     
-    def enter(self, event):
-        self.dirs()
+    # def enter(self, event):
+    #     self.dirs()
+        
 
     def item_sel(self, item):
-        
         self.produto = item
        
         
 
-    def dirs(self):
+    def dirs(self, event):
         
         self.op = self.entry_op.get()
         self.seq_produto = self.entry_seq_produto.get()    
@@ -484,13 +415,15 @@ class App:
                 self.label_resultado.config(
                     text='Caminho de rede não encontrado!',
                     fg='red',
-                    
+
                 )
-            
-                # print(self.tc_produto)
-                print(f'{self.caminho}')
-                print(f'{self.produto}')
+               
+
+              
+               
             self.produto = ''
+        self.raiz.update()      
+
     def rode_app(self):
 
         self.raiz.mainloop()
