@@ -36,9 +36,9 @@ class App:
 
         self.tc_produto = []
         try:
-            with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TC/tc.txt', 'a', encoding='utf-8', closefd=True):
+            with open('c:/Users/Public/Documents/TC/tc.txt', 'a', encoding='utf-8', closefd=True):
                 pass
-            with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TC/tc.txt', 'r', closefd=True, encoding='utf-8')  as tc_produto:
+            with open('c:/Users/Public/Documents/TC/tc.txt', 'r', closefd=True, encoding='utf-8')  as tc_produto:
                 for item in tc_produto:
                     self.tc_produto.append(item.strip())
             
@@ -47,9 +47,10 @@ class App:
 
         self.tp_produto=[]
         try:
-            with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TP/tp.txt', 'a', encoding='utf-8', closefd=True):
+           
+            with open('c:/Users/Public/Documents/TP/tp.txt', 'a', encoding='utf-8', closefd=True):
                 pass
-            with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TP/tp.txt', 'r', closefd=True, encoding='utf-8')  as tp_produto:
+            with open('c:/Users/Public/Documents/TP/tp.txt', 'r', closefd=True, encoding='utf-8')  as tp_produto:
                 for item in tp_produto:
                     self.tp_produto.append(item.strip())
             
@@ -61,6 +62,8 @@ class App:
         self.raiz.config(
             menu=self.menu_bar,
         )
+       
+
         self.tc = Menu(self.menu_bar, tearoff=0)
         self.menu_bar.add_cascade(label='TC', menu=self.tc)
         for self.items in self.tc_produto:
@@ -157,7 +160,8 @@ class App:
             cursor='Arrow',
             font='Arial',
             highlightcolor='#fff',
-            state='active'
+            state='active',
+            command=self.dirs,
         )
         self.botao.grid(
             column=0,
@@ -166,9 +170,8 @@ class App:
             padx=250,
             sticky='nw'
         )
-        self.botao.bind('<Return>', self.dirs)
-        self.botao.bind('<Button-1>', self.dirs)
-
+        self.botao.bind('<Return>', self.enter)
+        self.botao.bind('<Button-1>', self.enter)
         self.label_resultado = Label(
             text='',
             font='Arial',
@@ -248,7 +251,9 @@ class App:
                 fg='red'
         )
         else:
-            with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TC/tc.txt', 'a', encoding='utf-8', closefd=True) as tc_produto:
+            # with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TC/tc.txt', 'a', encoding='utf-8', closefd=True) as tc_produto:
+            #     tc_produto.write(f'{self.tc_entry_produto_add}\n')
+            with open('c:/Users/Public/Documents/TC/tc.txt', 'a', encoding='utf-8', closefd=True) as tc_produto:
                 tc_produto.write(f'{self.tc_entry_produto_add}\n')
             self.tc.add_cascade(
                 label=self.tc_entry_produto_add,
@@ -258,7 +263,6 @@ class App:
                 text='Produto cadastrado com sucesso!',
                 fg='green'
             )
-            self.raiz.update()           
     
 
     def add_tp(self):
@@ -327,7 +331,9 @@ class App:
         )
         else:
 
-            with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TP/tp.txt', 'a',  encoding='utf-8', closefd=True) as tp_produto:
+            # with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TP/tp.txt', 'a',  encoding='utf-8', closefd=True) as tp_produto:
+            #     tp_produto.write(f'{self.tp_entry_produto_add}\n')
+            with open('c:/Users/Public/Documents/TP/tp.txt', 'a',  encoding='utf-8', closefd=True) as tp_produto:
                 tp_produto.write(f'{self.tp_entry_produto_add}\n')
             
             self.tP.add_cascade(
@@ -369,91 +375,101 @@ class App:
             """         
         )
         
-    
-    # def enter(self, event):
-    #     self.dirs()
-        
+    def enter(self, event):
+        self.dirs()
 
     def item_sel(self, item):
-        self.produto = item
-       
-        
+         self.produto = item
 
-    def dirs(self, event):
+    
+
+    def criar_pasta_tc(self):
+        self.caminho_tc = f'c:/Users/Public/Documents/TC/{self.produto}/{self.seq_produto}'
+        self.pastas = ['TESTE', 'PDF', 'DIELETRICO']
+        self.criando_tc = Dirs(self.op, get_path_tc=self.caminho_tc, pastas=self.pastas)
+        try:
+            if self.criando_tc.criar_pastas_tc():
+                self.label_resultado.config(
+                    text='Pasta TC criada com sucesso!',
+                    fg='green'
+                )
+                self.entry_op.delete(0, END)
+                self.entry_seq_produto.delete(0, END)
+
+            else:
+                self.label_resultado.config(
+                    text='Pasta já existe',
+                    fg='red'
+                )
+
+        except Exception as e:
+            self.label_resultado.config(
+                text='Caminho de rede não encontrado!',
+                fg='red',
+            )
+            
+            print(f'Erro no caminho_tc: {e}')  # Mensagem de depuração
+            print(f'{self.caminho_tc}')
+            print(f'{self.produto}')
+            
+   
+    def criar_pasta_tp(self):
+        self.caminho_tp = f'c:/Users/Public/Documents/TP/{self.produto}/{self.seq_produto}'
+        self.pastas = ['TESTE', 'PDF', 'DIELETRICO']
+        self.criando_tp = Dirs(self.op, get_path_tp=self.caminho_tp, pastas=self.pastas)
+        try:
+            if self.criando_tp.criar_pastas_tp():
+                self.label_resultado.config(
+                    text='Pasta TP criada com sucesso!',
+                    fg='green'
+                )
+            else:
+                self.label_resultado.config(
+                    text=F'Pasta {self.op} já existe',
+                    fg='red'
+                )
+        except Exception as e:
+            self.label_resultado.config(
+                text='Caminho de rede não encontrado!',
+                fg='red',
+            )
+            print(f'Erro no caminho_tp: {e}')  # Mensagem de depuração
+            print(f'{self.caminho_tp}')
+            print(f'{self.produto}')
         
+    
+    def dirs(self):
+
         self.op = self.entry_op.get()
         self.seq_produto = self.entry_seq_produto.get()    
-        
-        
+       
+
         if not self.op:
             self.label_resultado.config(
                 text='OP não pode ser vázia!',
                 fg='yellow'
             )
-       
         elif not self.seq_produto:
             self.label_resultado.config(
                 text='Produto não pode ser vázio!',
                 fg='yellow'
             )
         elif not hasattr(self, 'produto') or not self.produto:
-                self.label_resultado.config(
+            self.label_resultado.config(
                 text='Selecione produto no menu TC ou TP!', 
                 fg='yellow'
             )
-        elif self.caminho == f'//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TC/{self.produto}/{self.seq_produto}/RELATÓRIO DE ENSAIO/':
-             # self.caminho = f'c:/Users/marci/Documents/{self.produto}/{self.seq_produto}'
-            self.pastas = ['TESTE', 'PDF', 'DIELETRICO']
-            self.criando = Dirs(self.op, self.caminho, self.pastas)
-            try:
-                if self.criando.criar_pastas():
-                    self.label_resultado.config(
-                        text='Pasta criada com sucesso!',
-                        fg='green'
-                    )
-                   
-                    self.entry_op.focus_force()
-                else:
-                    self.label_resultado.config(
-                        text='Pasta já existe',
-                        fg='red'
-                    )
-            except Exception as e:
-                self.label_resultado.config(
-                    text='Caminho de rede não encontrado!',
-                    fg='red',
-
-                )
-            
+      
         else:
-            self.caminho = f'//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TP/{self.produto}/{self.seq_produto}/RELATÓRIO DE ENSAIO/'
-            # self.caminho = f'c:/Users/marci/Documents/{self.produto}/{self.seq_produto}'
-            self.pastas = ['TESTE', 'PDF', 'DIELETRICO']
-            self.criando = Dirs(self.op, self.caminho, self.pastas)
-            try:
-                if self.criando.criar_pastas():
-                    self.label_resultado.config(
-                        text='Pasta criada com sucesso!',
-                        fg='green'
-                    )
-                   
-                    self.entry_op.focus_force()
-                else:
-                    self.label_resultado.config(
-                        text='Pasta já existe',
-                        fg='red'
-                    )
-            except Exception as e:
-                self.label_resultado.config(
-                    text='Caminho de rede não encontrado!',
-                    fg='red',
+            self.criar_pasta_tp()
+            
+          
 
-                )
-            self.produto = ''
-            self.raiz.update()      
-
+    
+    
+   
+              
     def rode_app(self):
-
         self.raiz.mainloop()
 
     
