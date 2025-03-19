@@ -10,7 +10,6 @@ from tkinter import (
     Toplevel,
     messagebox,
     END,
-    
 )
 from tkinter import ttk
 from src.dirs import Dirs
@@ -45,9 +44,8 @@ class App:
         except FileNotFoundError:
             pass
 
-        self.tp_produto=[]
+        self.tp_produto = []
         try:
-           
             with open('c:/Users/Public/Documents/TP/tp.txt', 'a', encoding='utf-8', closefd=True):
                 pass
             with open('c:/Users/Public/Documents/TP/tp.txt', 'r', closefd=True, encoding='utf-8')  as tp_produto:
@@ -56,29 +54,24 @@ class App:
             
         except FileNotFoundError:
             pass
-        
 
         self.menu_bar = Menu(self.raiz)
-        self.raiz.config(
-            menu=self.menu_bar,
-        )
-       
+        self.raiz.config(menu=self.menu_bar)
 
         self.tc = Menu(self.menu_bar, tearoff=0)
         self.menu_bar.add_cascade(label='TC', menu=self.tc)
         for self.items in self.tc_produto:
-            self.tc.add_cascade(label=self.items, command=lambda i=self.items: self.item_sel(item=i))
+            self.tc.add_cascade(label=self.items, command=lambda i=self.items: self.item_sel(item=i, tipo='TC'))
 
         self.tP = Menu(self.menu_bar, tearoff=0)
         self.menu_bar.add_cascade(label='TP', menu=self.tP)
         for self.items in self.tp_produto:
-            self.tP.add_cascade(label=self.items, command=lambda i=self.items: self.item_sel(item=i))
+            self.tP.add_cascade(label=self.items, command=lambda i=self.items: self.item_sel(item=i, tipo='TP'))
             
         self.add_produto = Menu(self.menu_bar, tearoff=0)
         self.menu_bar.add_cascade(label='Add Produto', menu=self.add_produto)
         self.add_produto.add_cascade(label='TC', command=self.add_tc)
         self.add_produto.add_cascade(label='TP', command=self.add_tp)
-
 
         self.ajuda_menu = Menu(self.menu_bar, tearoff=0)
         self.menu_bar.add_cascade(label='Ajuda', menu=self.ajuda_menu)
@@ -139,9 +132,7 @@ class App:
             pady=10
         )
 
-        
-
-        self.entry_seq_produto=Entry(
+        self.entry_seq_produto = Entry(
             bg='#fff2ff',
             relief='flat',
             borderwidth=1,
@@ -186,10 +177,7 @@ class App:
         )
     
     def add_tc(self):
-        
-        self.adiciona_produto = Toplevel(
-            self.raiz,
-        )
+        self.adiciona_produto = Toplevel(self.raiz)
         self.adiciona_produto.resizable(False, False)
         self.adiciona_produto.title('TC')
         self.adiciona_produto.focus_force()
@@ -199,9 +187,7 @@ class App:
             font='arial',
             fg='black'
         )
-        self.label_add_produto.pack(
-            pady=5
-        )
+        self.label_add_produto.pack(pady=5)
         self.entry_tc_produto = Entry(
             self.adiciona_produto,
             relief='solid',
@@ -209,9 +195,7 @@ class App:
             font='Arial',
             fg='black'
         )
-        self.entry_tc_produto.pack(
-            pady=5,
-        )
+        self.entry_tc_produto.pack(pady=5)
         self.entry_tc_produto.focus_force()
 
         self.botao_add_tc = Button(
@@ -223,13 +207,9 @@ class App:
             borderwidth=2,
             bd=2,
             background='skyblue',
-         
-            
         )
         
-        self.botao_add_tc.pack(
-            pady=5,
-        )
+        self.botao_add_tc.pack(pady=5)
         self.botao_add_tc.bind('<Return>', self.result_add_tc)
         self.botao_add_tc.bind('<Button-1>', self.result_add_tc)
         self.result_label_tc = Label(
@@ -238,38 +218,29 @@ class App:
             font='Arial', 
             fg='green'
         )
-        self.result_label_tc.pack(
-            pady=5,
-        )
+        self.result_label_tc.pack(pady=5)
 
-    
     def result_add_tc(self, event):
         self.tc_entry_produto_add = self.entry_tc_produto.get()
         if not self.tc_entry_produto_add:
             self.result_label_tc.config(
                 text='Adicione um produto!',
                 fg='red'
-        )
+            )
         else:
-            # with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TC/tc.txt', 'a', encoding='utf-8', closefd=True) as tc_produto:
-            #     tc_produto.write(f'{self.tc_entry_produto_add}\n')
             with open('c:/Users/Public/Documents/TC/tc.txt', 'a', encoding='utf-8', closefd=True) as tc_produto:
                 tc_produto.write(f'{self.tc_entry_produto_add}\n')
             self.tc.add_cascade(
                 label=self.tc_entry_produto_add,
-                command=lambda i= self.tc_entry_produto_add: self.item_sel(item=i)
+                command=lambda i=self.tc_entry_produto_add: self.item_sel(item=i, tipo='TC')
             )
             self.result_label_tc.config(
                 text='Produto cadastrado com sucesso!',
                 fg='green'
             )
-    
 
     def add_tp(self):
-        
-        self.adiciona_produto = Toplevel(
-            self.raiz,
-        )
+        self.adiciona_produto = Toplevel(self.raiz)
         self.adiciona_produto.resizable(False, False)
         self.adiciona_produto.title('TP')
         self.adiciona_produto.focus_force()
@@ -279,9 +250,7 @@ class App:
             font='arial',
             fg='black'
         )
-        self.label_add_produto.pack(
-            pady=5
-        )
+        self.label_add_produto.pack(pady=5)
         self.entry_tp_produto = Entry(
             self.adiciona_produto,
             relief='solid',
@@ -289,9 +258,7 @@ class App:
             font='Arial',
             fg='black'
         )
-        self.entry_tp_produto.pack(
-            pady=5,
-        )
+        self.entry_tp_produto.pack(pady=5)
         self.entry_tp_produto.focus_force()
         self.botao_add_tp = Button(
             self.adiciona_produto,
@@ -302,12 +269,9 @@ class App:
             borderwidth=2,
             bd=2,
             background='skyblue',
-           
         )
         
-        self.botao_add_tp.pack(
-            pady=5,
-        )
+        self.botao_add_tp.pack(pady=5)
         self.botao_add_tp.bind('<Return>', self.result_add_tp)        
         self.botao_add_tp.bind('<Button-1>', self.result_add_tp)        
         self.result_label_tp = Label(
@@ -316,36 +280,26 @@ class App:
             font='Arial', 
             fg='green'
         )
-        self.result_label_tp.pack(
-            pady=5,
-        )
+        self.result_label_tp.pack(pady=5)
         
-   
-            
     def result_add_tp(self, event):
         self.tp_entry_produto_add = self.entry_tp_produto.get()
         if not self.tp_entry_produto_add:
             self.result_label_tp.config(
                 text='Adicione um produto!',
                 fg='red'
-        )
+            )
         else:
-
-            # with open('//Srvtib-nas01/engenharia/TC_TP - PROJETOS/ELETRICOS_TC_TP/TP/tp.txt', 'a',  encoding='utf-8', closefd=True) as tp_produto:
-            #     tp_produto.write(f'{self.tp_entry_produto_add}\n')
-            with open('c:/Users/Public/Documents/TP/tp.txt', 'a',  encoding='utf-8', closefd=True) as tp_produto:
+            with open('c:/Users/Public/Documents/TP/tp.txt', 'a', encoding='utf-8', closefd=True) as tp_produto:
                 tp_produto.write(f'{self.tp_entry_produto_add}\n')
-            
             self.tP.add_cascade(
                 label=self.tp_entry_produto_add,
-                command=lambda i=self.tp_entry_produto_add: self.item_sel(item=i)
+                command=lambda i=self.tp_entry_produto_add: self.item_sel(item=i, tipo='TP')
             )
             self.result_label_tp.config(
                 text='Produto cadastrado com sucesso!',
                 fg='green'
             )
-           
-
 
     def mostra_ajuda(self):
         self.ajuda = messagebox.showinfo(
@@ -378,10 +332,9 @@ class App:
     def enter(self, event):
         self.dirs()
 
-    def item_sel(self, item):
-         self.produto = item
-
-    
+    def item_sel(self, item, tipo):
+        self.produto = item
+        self.tipo_produto = tipo
 
     def criar_pasta_tc(self):
         self.caminho_tc = f'c:/Users/Public/Documents/TC/{self.produto}/{self.seq_produto}'
@@ -390,29 +343,24 @@ class App:
         try:
             if self.criando_tc.criar_pastas_tc():
                 self.label_resultado.config(
-                    text='Pasta TC criada com sucesso!',
+                    text=f'Pasta {self.op} criada com sucesso!',
                     fg='green'
                 )
-                self.entry_op.delete(0, END)
-                self.entry_seq_produto.delete(0, END)
-
             else:
                 self.label_resultado.config(
                     text='Pasta já existe',
                     fg='red'
                 )
-
         except Exception as e:
             self.label_resultado.config(
                 text='Caminho de rede não encontrado!',
                 fg='red',
             )
-            
             print(f'Erro no caminho_tc: {e}')  # Mensagem de depuração
             print(f'{self.caminho_tc}')
             print(f'{self.produto}')
+        
             
-   
     def criar_pasta_tp(self):
         self.caminho_tp = f'c:/Users/Public/Documents/TP/{self.produto}/{self.seq_produto}'
         self.pastas = ['TESTE', 'PDF', 'DIELETRICO']
@@ -420,12 +368,12 @@ class App:
         try:
             if self.criando_tp.criar_pastas_tp():
                 self.label_resultado.config(
-                    text='Pasta TP criada com sucesso!',
+                    text=f'Pasta {self.op} criada com sucesso!',
                     fg='green'
                 )
             else:
                 self.label_resultado.config(
-                    text=F'Pasta {self.op} já existe',
+                    text=f'Pasta {self.op} já existe',
                     fg='red'
                 )
         except Exception as e:
@@ -437,39 +385,41 @@ class App:
             print(f'{self.caminho_tp}')
             print(f'{self.produto}')
         
-    
     def dirs(self):
-
         self.op = self.entry_op.get()
         self.seq_produto = self.entry_seq_produto.get()    
-       
 
         if not self.op:
             self.label_resultado.config(
                 text='OP não pode ser vázia!',
                 fg='yellow'
             )
+            self.entry_op.focus_force()
         elif not self.seq_produto:
             self.label_resultado.config(
                 text='Produto não pode ser vázio!',
                 fg='yellow'
             )
+            self.entry_seq_produto.focus_force()
         elif not hasattr(self, 'produto') or not self.produto:
             self.label_resultado.config(
                 text='Selecione produto no menu TC ou TP!', 
                 fg='yellow'
             )
-      
         else:
-            self.criar_pasta_tp()
-            
-          
+            if self.tipo_produto == 'TC':
+                self.criar_pasta_tc()
+            elif self.tipo_produto == 'TP':
+                self.criar_pasta_tp()
+            self.raiz.after(100, self.limpar_produto)  # Limpa self.produto após 100ms
 
-    
-    
-   
-              
+    def limpar_produto(self):
+        self.produto = ''
+        self.tipo_produto = ''
+
+    def enter(self, event):
+        self.dirs()
+
     def rode_app(self):
         self.raiz.mainloop()
 
-    
