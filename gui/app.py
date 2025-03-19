@@ -152,17 +152,18 @@ class App:
             font='Arial',
             highlightcolor='#fff',
             state='active',
-            command=self.dirs,
+            command=self.limpar_produto,
         )
         self.botao.grid(
             column=0,
             row=5,
             pady=5,
             padx=250,
-            sticky='nw'
+            sticky='nw',
         )
         self.botao.bind('<Return>', self.enter)
         self.botao.bind('<Button-1>', self.enter)
+
         self.label_resultado = Label(
             text='',
             font='Arial',
@@ -409,9 +410,9 @@ class App:
         else:
             if self.tipo_produto == 'TC':
                 self.criar_pasta_tc()
+
             elif self.tipo_produto == 'TP':
                 self.criar_pasta_tp()
-            self.raiz.after(100, self.limpar_produto)  # Limpa self.produto após 100ms
 
     def limpar_produto(self):
         self.produto = ''
